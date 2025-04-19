@@ -4,10 +4,6 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 
 
-const handleOnClick = () => {
-  console.log('Entered value:');
-};
-
 export default function Home() {
   const [feed, setfeed] = useState<string>('');
   const [output, setOutput] = useState<string>('');
