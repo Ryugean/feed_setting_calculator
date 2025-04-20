@@ -58,8 +58,8 @@ export default function Home() {
       <div className="flex flex-col items-center mt-25">
         <div>
           <div className="my-8 text-center">
-            <h1 className="font-bold text-6xl text-fuchsia-950">EL CALC</h1>
-            <p className="text-l">Gonna calculate some textile stuff</p>
+            <h1 className="font-bold text-6xl text-fuchsia-950">Feed Setting</h1>
+            <h1 className="font-bold text-6xl text-fuchsia-950">Calculator</h1>
           </div>
 
           <div className="text-left w-full max-w-md mx-1"> {/* Added max-w-md for better alignment */}
