@@ -9,15 +9,40 @@ export default function Home() {
   const [output, setOutput] = useState<string>('');
   const [tpi, setTPI] = useState<string>('20');
   const [rotor, setRotor] = useState<string>('25000');
-  const [rotorRPM, setRotorRPM] = useState<string>('');
-  const [delivery, setDelivery] = useState<string>('');
-  const [feedSett, setFeedSett] = useState<string>('');
+  const [rotorRPM, setRotorRPM] = useState<string>('...');
+  const [delivery, setDelivery] = useState<string>('...');
+  const [feedSett, setFeedSett] = useState<string>('...');
 
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  useEffect(() => {
+    const feedNum = parseFloat(feed);
+    const outputNum = parseFloat(output);
+    const userTPINum = parseFloat(tpi);
+    const rotorRpmNum = parseFloat(rotor);
+  
+    if ([feedNum, outputNum, userTPINum, rotorRpmNum].some(isNaN)) {
+      setRotorRPM("...");
+      setDelivery("...");
+      setFeedSett("...");
+    } else {
+      const rotorRpmSetting = (rotorRpmNum * 27) / 25000;
+      const deliverySetting = ((rotorRpmNum * 2.54) / (15 * 0.74 * userTPINum) - 94) / 8;
+      const difference = 24 / deliverySetting;
+      const baseSetting = outputNum * Math.pow(difference, 2);
+      const feedSetting = 36 - (0.1 * (baseSetting / feedNum));
+  
+      setRotorRPM(rotorRpmSetting.toFixed(4));
+      setDelivery(deliverySetting.toFixed(4));
+      setFeedSett(feedSetting.toFixed(4));
+    }
+      
+  }, [feed, output, tpi, rotor]);
+
 
   if(!isLoaded){
     return (
@@ -27,35 +52,9 @@ export default function Home() {
     )
   }
 
-  const handleOnClick = () => {
-    const feedNum = parseFloat(feed);
-    const outputNum = parseFloat(output);
-    const userTPINum = parseFloat(tpi);
-    const rotorRpmNum = parseFloat(rotor);
-
-    // Validation
-    if ([feedNum, outputNum, userTPINum, rotorRpmNum].some(isNaN)) {
-      setRotorRPM("PLease Enter a Valid Number");
-      setDelivery(" ");
-      setFeedSett(" ");
-      return;
-    }
-
-    const rotorRpmSetting = (rotorRpmNum * 27) / 25000;
-    const deliverySetting = ((rotorRpmNum * 2.54) / (15 * 0.74 * userTPINum) - 94) / 8;
-    const difference = 24 / deliverySetting;
-    const baseSetting = outputNum * Math.pow(difference, 2);
-    const feedSetting = 36 - (0.1 * (baseSetting / feedNum));
-
-    setRotorRPM(`Rotor RPM Setting: ${rotorRpmSetting.toFixed(4)}`);
-    setDelivery(`Delivery Setting: ${deliverySetting.toFixed(4)}`);
-    setFeedSett(`Feed Setting: ${feedSetting.toFixed(4)}`);
-  }
-  
-
   return (
     <main>
-      <div className="flex flex-col items-center mt-25">
+      <div className="flex flex-col items-center mt-15">
         <div>
           <div className="my-8 text-center">
             <h1 className="font-bold text-6xl text-fuchsia-950">Feed Setting</h1>
@@ -69,40 +68,54 @@ export default function Home() {
                 placeholder="Enter Feed (Ne)..."
                 className="my-1 w-full"
                 value = {feed}
-                onChange ={(e) => setfeed(e.target.value)}
+                onChange ={(e) => {
+                  setfeed(e.target.value);
+                }}
               />
               <Input 
                 type="text" 
                 placeholder="Enter Output (Ne)..." 
                 className="my-1 w-full"
                 value = {output}
-                onChange ={(e) => setOutput(e.target.value)}
+                onChange ={(e) => {
+                  setOutput(e.target.value);
+                 
+                }}
               />
               <Input 
                 type="text" 
                 placeholder="Enter TPI (Target)..." 
                 className="my-1 w-full"
                 value = {tpi}
-                onChange ={(e) => setTPI(e.target.value)}
+                onChange ={(e) => {
+                  setTPI(e.target.value);
+         
+                }}
               />
               <Input 
                 type="text" 
                 placeholder="Enter Rotor RPM..." 
                 className="my-1 w-full"
                 value = {rotor}
-                onChange ={(e) => setRotor(e.target.value)}
+                onChange ={(e) => {
+                  setRotor(e.target.value);
+               
+                }}
               />
               
           </div>
 
-          <div className="my-2 mx-1">
+          {/* <div className="my-2 mx-1">
             <Button onClick={handleOnClick}>Calculate</Button>
-          </div>
+          </div> */}
 
-          <div className="flex flex-col mx-1 font-bold">
-          {rotorRPM && <h1>{rotorRPM}</h1>}
-          {delivery && <h1>{delivery}</h1>}
-          {feedSett && <h1>{feedSett}</h1>}
+          <div className="flex flex-col mx-1">
+            {/* {rotorRPM && <h1>{rotorRPM}</h1>}
+            {delivery && <h1>{delivery}</h1>}
+            {feedSett && <h1>{feedSett}</h1>} */}
+            <h1>Rotor RPM Setting: <strong>{rotorRPM}</strong></h1>
+            <h1>Delivery Setting:  <strong>{delivery}</strong></h1>
+            <h1>Feed Setting: <strong>{feedSett}</strong></h1>
           </div>
         </div>
       </div>
