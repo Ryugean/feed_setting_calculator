@@ -7,7 +7,7 @@ function page() {
         <div className="my-8 text-center">
             <h1 className="font-bold text-6xl text-fuchsia-950">Instructions</h1>
         </div>
-        <div className='w-1/4'>
+        <div className='w-1/4 sm:w-3/4'>
             <ul className='list-disc'>
                 <li className='p-1 bg-fuchsia-100'>
                     Ensure all settings are correctly adjusted to default F27 = 25,000 RPM and F24 = 20 TPI.
