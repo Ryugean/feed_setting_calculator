@@ -16,7 +16,7 @@ function page() {
                     Enter the required Feed (Ne), Output (Ne), and Delivery Setting (TPI) values in the calculator.
                 </li>
                 <li className='p-1 bg-fuchsia-100'>
-                    Press the "Calculate" button to determine the feed and delivery settings.
+                    Press the &quot;Calculate&quot; button to determine the feed and delivery settings.
                 </li>
                 <li className='p-1 bg-fuchsia-100'>
                     Use the calculated values to configure the microcontroller.
